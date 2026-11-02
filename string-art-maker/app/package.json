@@ -1,0 +1,13 @@
+{
+  "name": "string-art-maker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Photo to string-art pin layout and thread sequence. Browser app, later wrapped with Capacitor.",
+  "scripts": {
+    "start": "npx serve . -l 8080",
+    "test": "node test/smoke.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}

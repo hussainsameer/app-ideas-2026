@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>String Art Maker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>String Art Maker <span class="tag">prototype</span></h1>
+  <p class="sub">Photo in, pin layout and thread sequence out. Everything runs on this device.</p>
+</header>
+
+<main>
+  <section class="panel" id="setup">
+    <h2>1. Photo</h2>
+    <div class="row">
+      <label class="btn file">Choose photo <input type="file" id="file" accept="image/*" hidden></label>
+      <button class="btn ghost" id="sample">Use sample</button>
+    </div>
+    <p class="hint">High-contrast photos with a plain background work best.</p>
+
+    <h2>2. Board</h2>
+    <div class="grid">
+      <label>Shape
+        <select id="shape">
+          <option value="circle">Circle</option>
+          <option value="square">Square</option>
+        </select>
+      </label>
+      <label>Board size (cm) <input type="number" id="boardCm" value="30" min="10" max="120"></label>
+      <label>Pins <input type="number" id="pins" value="200" min="40" max="400" step="4"></label>
+      <label>Threads <input type="number" id="lines" value="2500" min="200" max="6000" step="100"></label>
+      <label>Thread darkness <input type="range" id="weight" min="8" max="60" value="25"> <output id="weightOut">25</output></label>
+      <label>Contrast <input type="range" id="contrast" min="0.6" max="2" step="0.1" value="1.2"> <output id="contrastOut">1.2</output></label>
+    </div>
+    <button class="btn primary" id="run" disabled>Generate</button>
+    <button class="btn ghost" id="stop" hidden>Stop</button>
+    <p id="status" class="hint"></p>
+  </section>
+
+  <section class="panel" id="result">
+    <div class="canvases">
+      <figure><canvas id="source" width="200" height="200"></canvas><figcaption>Source</figcaption></figure>
+      <figure><canvas id="preview" width="600" height="600"></canvas><figcaption>Preview</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="panel" id="outputs" hidden>
+    <h2>3. Pin layout</h2>
+    <pre id="measurements"></pre>
+
+    <h2>4. Thread sequence</h2>
+    <div class="row">
+      <button class="btn" id="stepMode">Step-by-step</button>
+      <button class="btn ghost" id="downloadTxt">Download .txt</button>
+      <button class="btn ghost" id="copySeq">Copy</button>
+    </div>
+    <pre id="sequence" class="seq"></pre>
+  </section>
+</main>
+
+<!-- Step-by-step overlay: big numbers, one thread at a time -->
+<div id="stepper" hidden>
+  <div class="stepTop">
+    <button class="btn ghost" id="stepClose">Close</button>
+    <span id="stepCount"></span>
+  </div>
+  <div class="stepBody">
+    <div class="from">from <b id="stepFrom"></b></div>
+    <div class="to" id="stepTo"></div>
+    <div class="then">then <span id="stepNext"></span></div>
+  </div>
+  <div class="stepNav">
+    <button class="btn big" id="stepPrev">Back</button>
+    <button class="btn big primary" id="stepNextBtn">Next</button>
+  </div>
+</div>
+
+<script type="module" src="../src/main.js"></script>
+</body>
+</html>

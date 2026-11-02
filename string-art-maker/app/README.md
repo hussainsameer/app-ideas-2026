@@ -1,21 +1,60 @@
 # App
 
-The web app that Capacitor wraps for Android.
+The web app that Capacitor will wrap for Android. Plain HTML, CSS and ES modules, no build step.
 
 ```
 app/
-  public/            static files; index.html lives here, plus test-images/
-  src/               JavaScript modules: image loading, pin layout, greedy solver, exports
-  capacitor.config.json   added when we wire up Capacitor
-  package.json            added when we wire up Capacitor
+  public/index.html   the page
+  public/style.css
+  src/main.js         wires the page together
+  src/image.js        photo → grayscale darkness map, built-in sample image
+  src/pins.js         pin positions for circle / square boards, ruler measurements
+  src/solver.js       the greedy algorithm (pure, no DOM)
+  src/worker.js       runs the solver in a Web Worker so the page never freezes
+  src/preview.js      draws pins and threads on the canvas
+  test/               Playwright smoke test
 ```
 
-## Plan for the first prototype
-1. `public/index.html` with a file picker and a canvas.
-2. `src/pins.js`: circle and square pin positions.
-3. `src/solver.js`: the greedy algorithm from `../docs/algorithm.md`.
-4. `src/preview.js`: draws the threads on the canvas.
-5. Only after it works in the browser: `npm init`, add Capacitor, build for Android.
+## Run it
 
-## Test images
-Put 3–4 photos in `public/test-images/`: one high-contrast portrait, one low-contrast photo, one with a busy background, one simple logo. These show us where the algorithm struggles.
+ES modules need a web server (opening the file directly won't work). From this `app/` folder:
+
+```bash
+npx serve .
+```
+
+or
+
+```bash
+python -m http.server 8080
+```
+
+then open `http://localhost:8080/public/`.
+
+## What works (v0.1)
+- Photo or built-in sample, circle or square board, pin count, thread count, thread darkness, contrast.
+- Live preview while solving.
+- Ruler measurements for marking pins without a printer.
+- Sequence list (1-based, 10 per row), copy, download as .txt.
+- Step-by-step mode with big numbers, keyboard arrows, saved position, screen wake lock.
+
+## Not yet
+- Printable to-scale PDF template.
+- Save/load projects.
+- Colour threads.
+- Capacitor wrapper.
+
+## Test
+
+Start the server on port 8765 in one terminal, run the smoke test in another:
+
+```bash
+python -m http.server 8765
+```
+
+```bash
+npm install
+npm test
+```
+
+It clicks through sample → generate (circle and square) → step-by-step mode, checks for console errors, and saves screenshots to `test/out/`.

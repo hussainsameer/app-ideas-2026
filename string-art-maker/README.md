@@ -28,10 +28,10 @@ The user puts pins into cardboard at the marked spots, then follows the sequence
 
 - [x] Idea written down
 - [ ] Spec agreed
-- [ ] Algorithm prototype in browser (grayscale, circle board only)
+- [x] Algorithm prototype in browser (grayscale, circle + square)
 - [ ] Pin layout export (PDF / measurements)
-- [ ] Thread sequence export (numbered list, step-by-step mode)
-- [ ] Square board support
+- [x] Thread sequence export (numbered list, step-by-step mode)
+- [x] Square board support
 - [ ] UI design
 - [ ] Capacitor Android build
 - [ ] Play Store listing (needs Google Developer account)
