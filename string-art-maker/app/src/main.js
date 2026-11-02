@@ -5,6 +5,12 @@ import { buildTemplatePdf, tileGrid, templateFilename } from './template.js';
 
 const SIZE = 400;   // solver works on a 400×400 grayscale; fast and detailed enough for a preview
 const $ = (id) => document.getElementById(id);
+// localStorage can be blocked (private mode, embedded previews); never let that break the app
+const store = {
+  get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } },
+  remove: (k) => { try { localStorage.removeItem(k); } catch { /* ignore */ } },
+};
 
 let img = null;          // the loaded photo
 let worker = null;       // running solver
@@ -87,7 +93,7 @@ function finish(ms) {
   updatePdfInfo();
   $('sequence').textContent = formatSequence(sequence);
   $('outputs').hidden = false;
-  localStorage.removeItem('stepIndex');
+  store.remove('stepIndex');
 }
 
 function formatSequence(seq) {
@@ -135,7 +141,7 @@ $('copySeq').addEventListener('click', () => navigator.clipboard.writeText(forma
 // ---- step-by-step mode -----------------------------------------------------
 let stepIndex = 0;  // index into sequence of the pin we are going TO
 $('stepMode').addEventListener('click', () => {
-  stepIndex = Math.min(+localStorage.getItem('stepIndex') || 1, sequence.length - 1);
+  stepIndex = Math.min(+store.get('stepIndex') || 1, sequence.length - 1);
   $('stepper').hidden = false;
   renderStep();
   keepAwake();
@@ -154,7 +160,7 @@ function renderStep() {
   $('stepTo').textContent = sequence[stepIndex] + 1;
   $('stepNext').textContent = stepIndex + 1 < sequence.length ? sequence[stepIndex + 1] + 1 : 'finished, tie off';
   $('stepCount').textContent = `thread ${stepIndex} / ${sequence.length - 1}`;
-  localStorage.setItem('stepIndex', String(stepIndex));
+  store.set('stepIndex', String(stepIndex));
 }
 
 async function keepAwake() {
