@@ -1,6 +1,7 @@
 import { layoutPins, measurementText } from './pins.js';
 import { imageToDarkness, sampleImage } from './image.js';
 import { Preview } from './preview.js';
+import { buildTemplatePdf, tileGrid, templateFilename } from './template.js';
 
 const SIZE = 400;   // solver works on a 400×400 grayscale; fast and detailed enough for a preview
 const $ = (id) => document.getElementById(id);
@@ -83,6 +84,7 @@ function finish(ms) {
   stopWorker();
   setStatus(`Done: ${sequence.length - 1} threads in ${(ms / 1000).toFixed(1)} s.`);
   $('measurements').textContent = measurementText($('shape').value, pins.length, +$('boardCm').value);
+  updatePdfInfo();
   $('sequence').textContent = formatSequence(sequence);
   $('outputs').hidden = false;
   localStorage.removeItem('stepIndex');
@@ -97,6 +99,21 @@ function formatSequence(seq) {
 }
 
 function setStatus(t) { $('status').textContent = t; }
+
+// ---- PDF template ----------------------------------------------------------
+function templateOpts() {
+  return { shape: $('shape').value, count: pins.length, boardCm: +$('boardCm').value, paper: $('paper').value };
+}
+function updatePdfInfo() {
+  const g = tileGrid(+$('boardCm').value * 10, $('paper').value);
+  const n = g.cols * g.rows;
+  $('pdfPages').textContent = n === 1 ? '1 page + cover' : `${g.cols} x ${g.rows} = ${n} pages + cover`;
+}
+$('paper').addEventListener('change', updatePdfInfo);
+$('downloadPdf').addEventListener('click', () => {
+  const o = templateOpts();
+  buildTemplatePdf(o).save(templateFilename(o));
+});
 
 // ---- exports ---------------------------------------------------------------
 $('downloadTxt').addEventListener('click', () => {

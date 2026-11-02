@@ -12,6 +12,8 @@ app/
   src/solver.js       the greedy algorithm (pure, no DOM)
   src/worker.js       runs the solver in a Web Worker so the page never freezes
   src/preview.js      draws pins and threads on the canvas
+  src/template.js     printable to-scale PDF pin template (tiled across pages)
+  vendor/jspdf.*      jsPDF 2.5.2 (MIT), the only third-party code
   test/               Playwright smoke test
 ```
 
@@ -37,9 +39,9 @@ then open `http://localhost:8080/public/`.
 - Ruler measurements for marking pins without a printer.
 - Sequence list (1-based, 10 per row), copy, download as .txt.
 - Step-by-step mode with big numbers, keyboard arrows, saved position, screen wake lock.
+- Printable PDF pin template, to scale in mm, A4 or US Letter, tiled with a 10 mm overlap when the board is bigger than one sheet. Cover page has a 100 mm check bar and a page map.
 
 ## Not yet
-- Printable to-scale PDF template.
 - Save/load projects.
 - Colour threads.
 - Capacitor wrapper.
@@ -58,3 +60,9 @@ npm test
 ```
 
 It clicks through sample → generate (circle and square) → step-by-step mode, checks for console errors, and saves screenshots to `test/out/`.
+
+```bash
+node test/pdf.js
+```
+
+Downloads two templates, checks page counts with `pdfinfo`, renders with `pdftoppm` and measures the printed circle to confirm the scale (needs poppler-utils).

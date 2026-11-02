@@ -50,6 +50,16 @@
   <section class="panel" id="outputs" hidden>
     <h2>3. Pin layout</h2>
     <pre id="measurements"></pre>
+    <div class="row">
+      <label class="inline">Paper
+        <select id="paper">
+          <option value="a4">A4</option>
+          <option value="letter">US Letter</option>
+        </select>
+      </label>
+      <button class="btn" id="downloadPdf">Download PDF template</button>
+      <span class="hint" id="pdfPages"></span>
+    </div>
 
     <h2>4. Thread sequence</h2>
     <div class="row">
@@ -78,6 +88,7 @@
   </div>
 </div>
 
+<script src="../vendor/jspdf.umd.min.js"></script>
 <script type="module" src="../src/main.js"></script>
 </body>
 </html>

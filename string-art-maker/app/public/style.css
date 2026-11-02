@@ -36,3 +36,4 @@ pre { background:#faf9f6; border:1px solid var(--line); border-radius:8px; paddi
 .from, .then { font-size:20px; color:var(--mute); }
 .to { font-size:min(38vw, 220px); line-height:1; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; }
 .stepNav { display:flex; gap:12px; padding:16px; }
+label.inline { flex-direction:row; align-items:center; gap:6px; }

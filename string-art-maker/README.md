@@ -29,7 +29,7 @@ The user puts pins into cardboard at the marked spots, then follows the sequence
 - [x] Idea written down
 - [ ] Spec agreed
 - [x] Algorithm prototype in browser (grayscale, circle + square)
-- [ ] Pin layout export (PDF / measurements)
+- [x] Pin layout export (PDF / measurements)
 - [x] Thread sequence export (numbered list, step-by-step mode)
 - [x] Square board support
 - [ ] UI design
