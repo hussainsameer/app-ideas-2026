@@ -12,6 +12,10 @@ const store = {
   remove: (k) => { try { localStorage.removeItem(k); } catch { /* ignore */ } },
 };
 
+// When shown inside another page (thesameerhussain.com embeds this app in an iframe),
+// tell the parent we loaded, so it can fall back to a redirect if embedding is blocked.
+try { if (window.parent !== window) window.parent.postMessage({ type: 'string-art-maker-ready' }, '*'); } catch { /* ignore */ }
+
 let img = null;          // the loaded photo
 let worker = null;       // running solver
 let pins = [];           // current pin positions
